@@ -1,0 +1,43 @@
+# GetDaySuffix(day)
+- IF: ${ day == 1 || day == 21 || day == 31 }
+    - st
+- ELSEIF: ${ day == 2 || day == 22 }
+    - nd
+- ELSEIF: ${ day == 3 || day == 23 }
+    - rd
+- ELSE:
+    - th
+
+# DayWithSuffix(day)
+- ${ day}${ GetDaySuffix(day) }
+
+# pluralize(count, singular, plural) 
+- IF: ${ count == 1}
+    - ${ singular }
+- ELSE:
+    - ${ plural }
+
+
+# itemFormatter(item, templateName)
+- IF: ${ templateName != ''}
+    - ${ template(templateName , item) }
+- ELSE:
+    - ${ item }
+
+# andList(items, templateName)
+- ${ join(foreach(items, item, itemFormatter(item, templateName)), ', ', ' and ') }
+
+# orList(items, templateName)
+- ${ join(foreach(items, item, itemFormatter(item, templateName)), ', ', ' or ') }
+
+# bulletedList(items, templateName)
+- ```
+${ join(foreach(items, item, bulletItem(item, templateName)), '\n', '\n') }
+```
+
+# bulletItem(item, templateName)
+- * ${ itemFormatter(item, templateName) }
+
+# listItem(item) 
+- ${ item.title }
+
